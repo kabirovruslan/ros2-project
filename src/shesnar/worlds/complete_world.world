@@ -1428,7 +1428,7 @@
      -->
 
   <include>
-  <uri>workshop/src/shesnar/worlds/cus.sdf</uri>
+  <uri>file:///workspaces/ros2-project/install/shesnar/share/shesnar/worlds/cus.sdf</uri>
   <name>cus</name>
   <pose> 2.1 -1.5 0.6 0 0 0</pose>
   <static>true</static>
