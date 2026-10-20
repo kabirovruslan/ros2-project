@@ -1,0 +1,68 @@
+randomize: True
+
+
+first_group:
+  active: true
+  elements: 4
+  coords: [1.22, -0.21, .15, 0, 0, 1.57]
+  is_color: 5
+
+second_group:
+  active: false
+  elements: 4
+  coords: [0.425, -0.21, .15, 0, 0, 1.57]
+  is_color: 5
+
+third_group:
+  active: false
+  elements: 4
+  coords: [0.22, -1.12, .15, 0, 0, 0]
+  is_color: 6
+
+thouth_group:
+  active: false
+  elements: 4
+  coords: [0.825, -1.117, .15, 0, 0, 0]
+  is_color: 5
+
+five_group:
+  active: false
+  elements: 4
+  coords: [1.7, -0.82, .2, 0, 0, 0]
+  is_color: 15
+
+six_group:
+  active: false
+  elements: 4
+  coords: [1.22, -2.83, .15, 0, 0, 1.57]
+  is_color: 5
+
+seven_group:
+  active: false
+  elements: 4
+  coords: [0.425, -2.83, .15, 0, 0, 1.57]
+  is_color: 5
+
+eight_group:
+  active: false
+  elements: 4
+  coords: [.22, -1.92, .15, 0, 0, 0]
+  is_color: 9
+
+nine_group:
+  active: false
+  elements: 4
+  coords: [0.825, -1.88, .15, 0, 0, 0]
+  is_color: 5
+
+ten_group:
+  active: false
+  elements: 4
+  coords: [1.7, -2.22, .2, 0, 0, 0]
+  is_color: 0
+
+
+
+
+
+

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <gazebo reference="laser_frame">
+            <sensor name="laser" type="gpu_lidar">
+                <pose> 0 0 0 0 0 0 </pose>
+                <visualize>true</visualize>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>360</samples>
+                            <min_angle>-3.14</min_angle>
+                            <max_angle>3.14</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.3</min>
+                        <max>12</max>
+                    </range>
+                </lidar>
+                <topic>scan</topic>
+                <gz_frame_id>laser_frame</gz_frame_id>
+            </sensor>
+        </gazebo>
+
+    <joint name="laser_joint" type="fixed">
+        <parent link="body"/>
+        <child link="laser_frame"/>
+        <origin xyz="0 0 0.338" rpy="0 0 -1.57"/>
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.04"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.04">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <link name="top_aruco">
+        <visual>
+            <geometry>
+                 <mesh filename="file://$(find shesnar)/meshes/aruco_plane-7.obj" scale="0.5 0.5 0.5"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="aruco_joint" type="fixed">
+        <parent link="laser_frame"/>
+        <child link="top_aruco"/>
+        <origin xyz="0 0 0.0935" rpy="1.571 0 1.57"/>
+    </joint>
+
+    <link name="right_aruco">
+        <visual>
+            <geometry>
+                 <mesh filename="file://$(find shesnar)/meshes/aruco_plane-77.obj" scale="0.5 0.5 0.5"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="right_aruco_joint" type="fixed">
+        <parent link="top_aruco"/>
+        <child link="right_aruco"/>
+        <origin xyz="0 -0.0415 0.048" rpy="1.571 0 0"/>
+    </joint>
+
+    <link name="left_aruco">
+        <visual>
+            <geometry>
+                 <mesh filename="file://$(find shesnar)/meshes/aruco_plane-78.obj" scale="0.5 0.5 0.5"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="left_aruco_joint" type="fixed">
+        <parent link="top_aruco"/>
+        <child link="left_aruco"/>
+        <origin xyz="0 -0.0415 -0.048" rpy="-1.571 0 0"/>
+    </joint>
+
+    <link name="back_aruco">
+        <visual>
+            <geometry>
+                 <mesh filename="file://$(find shesnar)/meshes/aruco_plane-83.obj" scale="0.5 0.5 0.5"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="back_aruco_joint" type="fixed">
+        <parent link="top_aruco"/>
+        <child link="back_aruco"/>
+        <origin xyz="-0.048 -0.0415 0" rpy="0 0 1.571"/>
+    </joint>
+
+    <link name="forward_aruco">
+        <visual>
+            <geometry>
+                 <mesh filename="file://$(find shesnar)/meshes/aruco_plane-88.obj" scale="0.5 0.5 0.5"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="forward_aruco_joint" type="fixed">
+        <parent link="top_aruco"/>
+        <child link="forward_aruco"/>
+        <origin xyz="0.048 -0.0415 0" rpy="0 0 -1.571"/>
+    </joint>
+
+    
+</robot>

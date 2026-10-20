@@ -1,0 +1,24 @@
+{
+  "name": "workshop",
+  "dockerFile": "Dockerfile",
+  "runArgs": [
+    "--privileged",
+    "--network=host",
+    "--ipc=host",
+
+    "--env=DISPLAY",
+    "--env=QT_X11_NO_MITSHM=1",
+    "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
+    "--device=/dev/dri:/dev/dri",
+ 
+    // Раскоментить тем, у кого видеокарта Nvidia
+    // "--gpus=all",
+    // "--env=NVIDIA_DRIVER_CAPABILITIES=all",
+    // "--env=__GLX_VENDOR_LIBRARY_NAME=nvidia",
+    // "--runtime=nvidia"
+  ],
+
+
+  "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
+  "workspaceFolder": "/${localWorkspaceFolderBasename}",
+}
