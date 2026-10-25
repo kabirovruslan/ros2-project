@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Угол наклона камеры вниз, рад. Подбирается так, чтобы брусок был в кадре -->
+    <xacro:property name="cam_alpha" value="0.8"/>
+
+    <link name="camera_link">
+        <visual>
+            <geometry><box size="0.01 0.03 0.02"/></geometry>
+        </visual>
+        <collision>
+            <geometry><box size="0.01 0.03 0.02"/></geometry>
+        </collision>
+        <xacro:inertial_box mass="0.05" x="0.01" y="0.03" z="0.02">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="camera_joint" type="fixed">
+        <parent link="body"/>
+        <child link="camera_link"/>
+        <origin xyz="0.09 0 0.12" rpy="0 ${cam_alpha} 0"/>
+    </joint>
+
+    <gazebo reference="camera_link">
+        <sensor name="camera" type="camera">
+            <always_on>true</always_on>
+            <update_rate>50</update_rate>
+            <topic>camera/image</topic>
+            <gz_frame_id>camera_link</gz_frame_id>
+            <camera>
+                <horizontal_fov>1.6</horizontal_fov>
+                <image>
+                    <width>1920</width>
+                    <height>1080</height>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>10</far>
+                </clip>
+            </camera>
+        </sensor>
+    </gazebo>
+
+</robot>

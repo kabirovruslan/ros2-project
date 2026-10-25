@@ -34,7 +34,7 @@
           </geometry>
           <surface>
             <friction>
-              <ode/>
+-              <ode/>
             </friction>
             <bounce/>
             <contact/>
@@ -79,7 +79,7 @@
 
 
 <include>
-  <uri>file:///workshop/src/shesnar/worlds/support_obstacle_comp/cargoes.sdf</uri>
+  <uri>file:///ros2-project/install/shesnar/share/shesnar/worlds/support_obstacle_comp/cargoes.sdf</uri>
   <name>all_cargo</name>
 </include>
 
@@ -1428,7 +1428,7 @@
      -->
 
   <include>
-  <uri>file:///workspaces/ros2-project/install/shesnar/share/shesnar/worlds/cus.sdf</uri>
+  <uri>file:///ros2-project/install/shesnar/share/shesnar/worlds/cus.sdf</uri>
   <name>cus</name>
   <pose> 2.1 -1.5 0.6 0 0 0</pose>
   <static>true</static>
@@ -1454,7 +1454,7 @@
         <collision name='map_collision'>
           <geometry>
             <mesh>
-              <uri>file:///workshop/src/shesnar/worlds/collision.obj</uri>
+              <uri>file:///ros2-project/install/shesnar/share/shesnar/worlds/collision.obj</uri>
              <scale> 0.1 0.1 0.1</scale>
             </mesh>
           </geometry>
@@ -1471,7 +1471,7 @@
         <visual name='map_visual'>
           <geometry>
             <mesh>
-              <uri>file:///workshop/src/shesnar/worlds/actual_field.obj</uri>
+              <uri>file:///ros2-project/install/shesnar/share/shesnar/worlds/actual_field.obj</uri>
               <scale> 0.1 0.1 0.1</scale>
             </mesh>
           </geometry>
