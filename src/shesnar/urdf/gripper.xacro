@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <xacro:property name="grip_z" value="0.04"/>
+
+    <material name="gripper_grey">
+        <color rgba="0.55 0.55 0.6 1"/>
+    </material>
+    <material name="pad_red">
+        <color rgba="0.8 0.2 0.2 1"/>
+    </material>
+
+    <link name="carriage">
+        <visual>
+            <origin xyz="0.095 0 0"/>
+            <geometry><box size="0.19 0.028 0.01"/></geometry>
+            <material name="gripper_grey"/>
+        </visual>
+        <collision>
+            <origin xyz="0.095 0 0"/>
+            <geometry><box size="0.19 0.028 0.01"/></geometry>
+        </collision>
+        <visual>
+            <origin xyz="0.012 0 -0.0275"/>
+            <geometry><box size="0.006 0.028 0.045"/></geometry>
+            <material name="gripper_grey"/>
+        </visual>
+        <collision>
+            <origin xyz="0.012 0 -0.0275"/>
+            <geometry><box size="0.006 0.028 0.045"/></geometry>
+        </collision>
+        <xacro:inertial_box mass="0.08" x="0.19" y="0.028" z="0.01">
+            <origin xyz="0.095 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="lift_joint" type="prismatic">
+        <parent link="body"/>
+        <child link="carriage"/>
+        <origin xyz="0.1 0 ${grip_z}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0" upper="0.02" effort="20" velocity="0.1"/>
+    </joint>
+
+    <link name="moving_jaw">
+        <visual>
+            <geometry><box size="0.006 0.028 0.045"/></geometry>
+            <material name="gripper_grey"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.006 0.028 0.045"/></geometry>
+        </collision>
+        <xacro:inertial_box mass="0.03" x="0.006" y="0.028" z="0.045">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="extension_joint" type="prismatic">
+        <parent link="carriage"/>
+        <child link="moving_jaw"/>
+        <origin xyz="0.168 0 -0.0275" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="0" upper="0.02" effort="20" velocity="0.1"/>
+    </joint>
+
+    <link name="pad_free">
+        <visual>
+            <origin rpy="0 1.5708 0"/>
+            <geometry><cylinder radius="0.009" length="0.004"/></geometry>
+            <material name="pad_red"/>
+        </visual>
+        <collision>
+            <origin rpy="0 1.5708 0"/>
+            <geometry><cylinder radius="0.009" length="0.004"/></geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.02" length="0.004" radius="0.009">
+            <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="pad_free_joint" type="continuous">
+        <parent link="moving_jaw"/>
+        <child link="pad_free"/>
+        <origin xyz="-0.005 0 -0.0125" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <dynamics damping="0.00001"/>
+    </joint>
+
+    <link name="pad_servo">
+        <visual>
+            <geometry><box size="0.004 0.018 0.01"/></geometry>
+            <material name="pad_red"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.004 0.018 0.01"/></geometry>
+        </collision>
+        <xacro:inertial_box mass="0.05" x="0.004" y="0.018" z="0.01">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="rotation_joint" type="revolute">
+        <parent link="carriage"/>
+        <child link="pad_servo"/>
+        <origin xyz="0.017 0 -0.045" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-3.14" upper="3.14" effort="1" velocity="3"/>
+    </joint>
+
+    <gazebo>
+        <plugin filename="gz-sim-joint-position-controller-system"
+                name="gz::sim::systems::JointPositionController">
+            <joint_name>lift_joint</joint_name>
+            <topic>/gripper/lift/position</topic>
+            <p_gain>400</p_gain>
+            <i_gain>0</i_gain>
+            <d_gain>20</d_gain>
+            <cmd_max>20</cmd_max>
+            <cmd_min>-20</cmd_min>
+        </plugin>
+
+        <plugin filename="gz-sim-joint-position-controller-system"
+                name="gz::sim::systems::JointPositionController">
+            <joint_name>extension_joint</joint_name>
+            <topic>/gripper/extension/position</topic>
+            <p_gain>100</p_gain>
+            <i_gain>0</i_gain>
+            <d_gain>2</d_gain>
+            <cmd_max>20</cmd_max>
+            <cmd_min>-20</cmd_min>
+        </plugin>
+
+        <plugin filename="gz-sim-joint-position-controller-system"
+                name="gz::sim::systems::JointPositionController">
+            <joint_name>rotation_joint</joint_name>
+            <topic>/gripper/rotation/position</topic>
+            <p_gain>0.5</p_gain>
+            <i_gain>0</i_gain>
+            <d_gain>0.002</d_gain>
+            <cmd_max>1</cmd_max>
+            <cmd_min>-1</cmd_min>
+        </plugin>
+    </gazebo>
+
+</robot>
